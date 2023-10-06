@@ -44,6 +44,8 @@ class process_PA_form:
                 ws_self_recognition = wb.sheets['Self-recognition']
                 ws_competency = wb.sheets['Competency Data']
                 ws_matrix = wb.sheets['Matrix']
+                ws_promotion_E_ASE = wb.sheets['E-ASE Promotion Form']
+                ws_promotion_ASE_SE = wb.sheets['ASE-SE Promotion Form']
 
                 #--Unprotect workbook and worksheets
                 wb.api.Unprotect(Password=password_wb)
@@ -51,6 +53,8 @@ class process_PA_form:
                 ws_self_recognition.api.Unprotect(Password=password_wb)
                 ws_competency.api.Unprotect(Password=password_wb)
                 ws_matrix.api.Unprotect(Password=password_wb)
+                ws_promotion_E_ASE.api.Unprotect(Password=password_wb)
+                ws_promotion_ASE_SE.api.Unprotect(Password=password_wb)
 
                 #--Update personal data
                 ws_cover.range('N7').value = int(id_employee)
@@ -114,13 +118,34 @@ class process_PA_form:
                         ws_cover.range(f"{'AB{}'.format(2+i)}").formula = "='Competency Data'!B"+str(5+2*i)
                         i += 1
 
+                #--Unhide promotion sheet
+                final_score = ws_cover.range("D21").value
+                if final_score != "N/A":
+                    if employee_level == 'Engineer' and final_score >= 3:
+                        ws_promotion_E_ASE.api.Visible = True
+                        ws_promotion_ASE_SE.api.Visible = False
+                    elif employee_level == 'Associate Senior' and final_score >= 3:
+                        ws_promotion_E_ASE.api.Visible = False
+                        ws_promotion_ASE_SE.api.Visible = True
+                    else:
+                        ws_promotion_E_ASE.api.Visible = False
+                        ws_promotion_ASE_SE.api.Visible = False
+                else:
+                    ws_promotion_E_ASE.api.Visible = False
+                    ws_promotion_ASE_SE.api.Visible = False
+
+
                 #--Protect worksheets
                 if bool_lock_pa_form:
                     ws_cover.api.Protect(Password=password_wb)
                     ws_self_recognition.api.Protect(Password=password_wb)
                     ws_competency.api.Protect(Password=password_wb)
                     ws_matrix.api.Protect(Password=password_wb)
+                    ws_promotion_E_ASE.api.Protect(Password=password_wb)
+                    ws_promotion_ASE_SE.api.Protect(Password=password_wb)
                     wb.api.Protect(Password=password_wb)
+
+
 
                 #--Save and close workbook
                 wb.save()
