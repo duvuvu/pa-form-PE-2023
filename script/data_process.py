@@ -68,7 +68,12 @@ class process_PA_form:
                 # Get and set textbox
                 ws_self_recognition.shapes("TextBox 1A").text = employee_name
                 ws_self_recognition.shapes("TextBox 3A").text = datetime.strptime(employee_date_review_start, '%Y-%m-%d').strftime('%Y')
+                
+                ws_promotion_E_ASE.shapes("TextBox 1A").text = employee_name
+                ws_promotion_E_ASE.shapes("TextBox 3A").text = datetime.strptime(employee_date_review_start, '%Y-%m-%d').strftime('%Y')
 
+                ws_promotion_ASE_SE.shapes("TextBox 1A").text = employee_name
+                ws_promotion_ASE_SE.shapes("TextBox 3A").text = datetime.strptime(employee_date_review_start, '%Y-%m-%d').strftime('%Y')
 
                 #----Clear old data
                 last_row = ws_competency.range('J500').end('up').row # column J
