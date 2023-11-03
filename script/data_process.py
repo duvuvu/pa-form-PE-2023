@@ -84,6 +84,17 @@ class process_PA_form:
 
                 ws_competency.range('7:500').clear()
 
+                ws_competency.range('I5:I6').value = "-"
+                ws_competency.range('I5:I6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('L5:L6').value = "-"
+                ws_competency.range('L5:L6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('O5:O6').value = "-"
+                ws_competency.range('O5:O6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('R5:R6').value = "-"
+                ws_competency.range('R5:R6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('U5:U6').value = "-"
+                ws_competency.range('U5:U6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+
                 #----Import new data
                 if number_of_task_type-2 > 0:
                     
