@@ -103,8 +103,10 @@ class Employee_FunctionDA:
                 col = 'L2_T1'
             elif re.match(r'^L3\.', task_proficiency):
                 col = 'L3_T1'
-            elif re.match(r'^L4\.', task_proficiency):
+            elif re.match(r'^L4\.1\.', task_proficiency):
                 col = 'L4_T1'
+            elif re.match(r'^L4\.2\.', task_proficiency):
+                col = 'L4_T2'
             elif re.match(r'^L5\.1\.', task_proficiency):
                 col = 'L5_T1'
             elif re.match(r'^L5\.2\.', task_proficiency):
@@ -116,7 +118,7 @@ class Employee_FunctionDA:
             
         # CEI
         df_temp = utils_dataframe().filter_df_not_null(df_data[['id_task', 'task_type', 'task_CEI_number']], 'task_CEI_number')
-        col = 'L4_T2'
+        col = 'L1_T2'
         for index, row in df_temp.iterrows():
             if df_classfied.at[row['task_type'], col] == '-':
                 df_classfied.at[row['task_type'], col] = '● ' + str(row['id_task']) + ': ' + str(row['task_CEI_number']) + '\n'
