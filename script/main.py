@@ -14,6 +14,7 @@ class main_process:
             ui_smartsheet_PE_member_id = ui_instance.lineEdit_smartsheet_PE_member_ID.text()
             ui_workbook_password = ui_instance.lineEdit_workbook_password.text()
             bool_lock_pa_form = ui_instance.checkBox_lock_workbook.isChecked()
+            bool_unhide_reports = ui_instance.checkBox_show_reports.isChecked()
             ui_tablewidget = ui_instance.tableWidget
             ui_progressbar = ui_instance.progressBar
 
@@ -36,7 +37,7 @@ class main_process:
             # Excel PA Form
             ui_instance.update_status('<<Exporting to PA Form>>', ui_progressbar, 3, 4)
             for key, team in teams.items():
-                data_process.process_PA_form(team_instance=team, password_wb=ui_workbook_password, bool_lock_pa_form=bool_lock_pa_form)
+                data_process.process_PA_form(team_instance=team, password_wb=ui_workbook_password, bool_lock_pa_form=bool_lock_pa_form, bool_unhide_reports=bool_unhide_reports)
             
             ui_instance.update_status('<<Completed>>', ui_progressbar, 4, 4)
             print('<<Completed>>')

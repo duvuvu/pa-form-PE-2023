@@ -22,14 +22,14 @@ class Ui(QtWidgets.QMainWindow):
         self.load_default_config([self.lineEdit_smartsheet_API_token, 
                                     self.lineEdit_smartsheet_PE_member_ID, 
                                     self.lineEdit_browse_directory,
-                                    self.lineEdit_workbook_password], [self.checkBox_lock_workbook])
+                                    self.lineEdit_workbook_password], [self.checkBox_lock_workbook, self.checkBox_show_reports])
 
         self.toolButton_browse_directory.clicked.connect(lambda: self.browse_and_fill_linetext_folder(self.lineEdit_browse_directory))
 
         self.pushButton_set_as_default.clicked.connect(lambda: self.set_default_config([self.lineEdit_smartsheet_API_token, 
                                                                                           self.lineEdit_smartsheet_PE_member_ID, 
                                                                                           self.lineEdit_browse_directory,
-                                                                                          self.lineEdit_workbook_password], [self.checkBox_lock_workbook]))
+                                                                                          self.lineEdit_workbook_password], [self.checkBox_lock_workbook, self.checkBox_show_reports]))
 
         self.progressBar.setHidden(True)
         self.plainTextEdit_ouput_stream.setHidden(True)

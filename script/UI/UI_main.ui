@@ -160,13 +160,6 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2" colspan="2">
-           <widget class="QCheckBox" name="checkBox_lock_workbook">
-            <property name="text">
-             <string>Lock Workbook</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_3">
             <property name="text">
@@ -242,7 +235,7 @@ Default</string>
                 </font>
                </property>
                <property name="text">
-                <string> </string>
+                <string/>
                </property>
               </widget>
              </item>
@@ -255,11 +248,25 @@ Default</string>
                 </font>
                </property>
                <property name="text">
-                <string> </string>
+                <string/>
                </property>
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="checkBox_lock_workbook">
+            <property name="text">
+             <string>Lock Workbook</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="checkBox_show_reports">
+            <property name="text">
+             <string>Unhide Reports</string>
+            </property>
            </widget>
           </item>
          </layout>

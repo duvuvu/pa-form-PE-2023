@@ -3,7 +3,7 @@ import os
 from datetime import datetime # datetime library
 
 class process_PA_form:
-    def __init__(self, team_instance, password_wb, bool_lock_pa_form):
+    def __init__(self, team_instance, password_wb, bool_lock_pa_form, bool_unhide_reports):
         for index, row in team_instance.df_data.iterrows():
             try:
                 print('<<Exporting to PA Form: ', row['employee_name'], '>>')
@@ -46,6 +46,7 @@ class process_PA_form:
                 ws_matrix = wb.sheets['Matrix']
                 ws_promotion_E_ASE = wb.sheets['E-ASE Promotion Form']
                 ws_promotion_ASE_SE = wb.sheets['ASE-SE Promotion Form']
+                ws_reports = wb.sheets['Reports']
 
                 #--Unprotect workbook and worksheets
                 wb.api.Unprotect(Password=password_wb)
@@ -55,6 +56,7 @@ class process_PA_form:
                 ws_matrix.api.Unprotect(Password=password_wb)
                 ws_promotion_E_ASE.api.Unprotect(Password=password_wb)
                 ws_promotion_ASE_SE.api.Unprotect(Password=password_wb)
+                ws_reports.api.Unprotect(Password=password_wb)
 
                 #--Update personal data
                 ws_cover.range('N7').value = int(id_employee)
@@ -150,6 +152,11 @@ class process_PA_form:
                     ws_promotion_E_ASE.api.Visible = False
                     ws_promotion_ASE_SE.api.Visible = False
 
+                #--Hide/Unhide report sheet
+                if bool_unhide_reports:
+                    ws_reports.api.Visible = True
+                else:
+                    ws_reports.api.Visible = False
 
                 #--Protect worksheets
                 if bool_lock_pa_form:
@@ -159,6 +166,7 @@ class process_PA_form:
                     ws_matrix.api.Protect(Password=password_wb)
                     ws_promotion_E_ASE.api.Protect(Password=password_wb)
                     ws_promotion_ASE_SE.api.Protect(Password=password_wb)
+                    ws_reports.api.Protect(Password=password_wb)
                     wb.api.Protect(Password=password_wb)
 
 
