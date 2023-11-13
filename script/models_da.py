@@ -131,14 +131,14 @@ class Employee_FunctionDA:
         for index, row in df_temp.iterrows():
             if df_classfied.at[row['task_type'], col] == '-':
                 if row['task_improvement_idea_compliment'] != None:
-                    df_classfied.at[row['task_type'], col] = '● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
-                else:
                     df_classfied.at[row['task_type'], col] = '●● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
+                else:
+                    df_classfied.at[row['task_type'], col] = '● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
             else:
                 if row['task_improvement_idea_compliment'] != None:
-                    df_classfied.at[row['task_type'], col] += '● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
-                else:
                     df_classfied.at[row['task_type'], col] += '●● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
+                else:
+                    df_classfied.at[row['task_type'], col] += '● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
         
         df_temp = None
 
