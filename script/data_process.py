@@ -23,12 +23,13 @@ class process_PA_form:
                 number_of_task_type = employee_function_df_classified.shape[0]
 
                 col_task_type= 'A'
-                dict_col = {'L0': 'F',
-                            'L1': 'I',
-                            'L2': 'L',
-                            'L3': 'O',
-                            'L4': 'R',
-                            'L5': 'U'}
+                dict_col = {'L1A': 'H',
+                            'L1B': 'K',
+                            'L2': 'N',
+                            'L3': 'Q',
+                            'L4': 'T',
+                            'L5': 'W',
+                            'LB': 'Z'}
                 
                 #--Get workbook path
                 path_wb = row['employee_pa_form_path']
@@ -38,16 +39,18 @@ class process_PA_form:
 
                 #--Open workbook
                 wb = xw.Book(path_wb)
-
+                print('1------------------------------')
                 #--Declair and initialize worksheets
                 ws_cover = wb.sheets['PA Form']
                 ws_self_recognition = wb.sheets['Self-recognition']
                 ws_competency = wb.sheets['Competency Data']
                 ws_matrix = wb.sheets['Matrix']
                 ws_promotion_E_ASE = wb.sheets['E-ASE Promotion Form']
+                ws_competency_notes_E_ASE = wb.sheets['E-ASE Competency Notes']
                 ws_promotion_ASE_SE = wb.sheets['ASE-SE Promotion Form']
+                ws_competency_notes_ASE_SE = wb.sheets['ASE-SE Competency Notes']
                 ws_reports = wb.sheets['Reports']
-
+                print('2------------------------------')
                 #--Unprotect workbook and worksheets
                 wb.api.Unprotect(Password=password_wb)
                 ws_cover.api.Unprotect(Password=password_wb)
@@ -55,7 +58,9 @@ class process_PA_form:
                 ws_competency.api.Unprotect(Password=password_wb)
                 ws_matrix.api.Unprotect(Password=password_wb)
                 ws_promotion_E_ASE.api.Unprotect(Password=password_wb)
+                ws_competency_notes_E_ASE.api.Unprotect(Password=password_wb)
                 ws_promotion_ASE_SE.api.Unprotect(Password=password_wb)
+                ws_competency_notes_ASE_SE.api.Unprotect(Password=password_wb)
                 ws_reports.api.Unprotect(Password=password_wb)
 
                 #--Update personal data
@@ -66,7 +71,7 @@ class process_PA_form:
                 ws_cover.range('N6').value = datetime.strptime(employee_date_join, '%Y-%m-%d').strftime('%m/%d/%Y')
                 ws_cover.range('C10').value = datetime.strptime(employee_date_review_start, '%Y-%m-%d').strftime('%m/%d/%Y')
                 ws_cover.range('E10').value = datetime.strptime(employee_date_review_end, '%Y-%m-%d').strftime('%m/%d/%Y')
-
+                
                 # Get and set textbox
                 ws_self_recognition.shapes("TextBox 1A").text = employee_name
                 ws_self_recognition.shapes("TextBox 3A").text = datetime.strptime(employee_date_review_start, '%Y-%m-%d').strftime('%Y')
@@ -76,7 +81,7 @@ class process_PA_form:
 
                 ws_promotion_ASE_SE.shapes("TextBox 1A").text = employee_name
                 ws_promotion_ASE_SE.shapes("TextBox 3A").text = datetime.strptime(employee_date_review_start, '%Y-%m-%d').strftime('%Y')
-
+                
                 #----Clear old data
                 last_row = ws_competency.range('J500').end('up').row # column J
                 number_of_OLD_task_type = int((last_row + 1 - 5) / 2)
@@ -84,25 +89,29 @@ class process_PA_form:
                 if number_of_OLD_task_type-2 > 0:
                     ws_cover.range(f"{'X3:AB{}'.format(3+number_of_OLD_task_type-2-1)}").delete(shift='up')
 
-                ws_competency.range('7:500').clear()
+                ws_competency.range('8:500').clear()
 
-                ws_competency.range('I5:I6').value = "-"
-                ws_competency.range('I5:I6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
-                ws_competency.range('L5:L6').value = "-"
-                ws_competency.range('L5:L6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
-                ws_competency.range('O5:O6').value = "-"
-                ws_competency.range('O5:O6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
-                ws_competency.range('R5:R6').value = "-"
-                ws_competency.range('R5:R6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
-                ws_competency.range('U5:U6').value = "-"
-                ws_competency.range('U5:U6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
-
+                ws_competency.range('H5:H6').value = "-"
+                ws_competency.range('H5:H6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('K5:K6').value = "-"
+                ws_competency.range('K5:K6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('N5:N6').value = "-"
+                ws_competency.range('N5:N6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('Q5:Q6').value = "-"
+                ws_competency.range('Q5:Q6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('T5:T6').value = "-"
+                ws_competency.range('T5:T6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('W5:W6').value = "-"
+                ws_competency.range('W5:W6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                ws_competency.range('Z5:Z6').value = "-"
+                ws_competency.range('Z5:Z6').api.HorizontalAlignment = xw.constants.HAlign.xlHAlignCenter
+                
                 #----Import new data
                 if number_of_task_type-2 > 0:
                     
-                    competency_data_FR = 5
+                    competency_data_FR = 6
                     competency_data_LR = competency_data_FR + number_of_task_type*2 - 1
-                    ws_competency.range('5:6').copy()
+                    ws_competency.range('6:7').copy()
                     ws_competency.range(f"{'{}:{}'.format(competency_data_FR+2, competency_data_LR)}").paste()
 
                     rng = ws_cover.range(f"{'X3:AB{}'.format(3+number_of_task_type-2-1)}")
@@ -141,16 +150,27 @@ class process_PA_form:
                 if final_score != "N/A":
                     if employee_level == 'Engineer' and final_score >= 3:
                         ws_promotion_E_ASE.api.Visible = True
+                        ws_competency_notes_E_ASE.api.Visible = True
                         ws_promotion_ASE_SE.api.Visible = False
+                        ws_competency_notes_ASE_SE.api.Visible = False
+
                     elif employee_level == 'Associate Senior' and final_score >= 3:
                         ws_promotion_E_ASE.api.Visible = False
+                        ws_competency_notes_E_ASE.api.Visible = False
                         ws_promotion_ASE_SE.api.Visible = True
+                        ws_competency_notes_ASE_SE.api.Visible = True
+
                     else:
                         ws_promotion_E_ASE.api.Visible = False
+                        ws_competency_notes_E_ASE.api.Visible = False
                         ws_promotion_ASE_SE.api.Visible = False
+                        ws_competency_notes_ASE_SE.api.Visible = False
+
                 else:
                     ws_promotion_E_ASE.api.Visible = False
+                    ws_competency_notes_E_ASE.api.Visible = False
                     ws_promotion_ASE_SE.api.Visible = False
+                    ws_competency_notes_ASE_SE.api.Visible = False
 
                 #--Hide/Unhide report sheet
                 if bool_unhide_reports:
@@ -165,7 +185,9 @@ class process_PA_form:
                     ws_competency.api.Protect(Password=password_wb)
                     ws_matrix.api.Protect(Password=password_wb)
                     ws_promotion_E_ASE.api.Protect(Password=password_wb)
+                    ws_competency_notes_E_ASE.api.Protect(Password=password_wb)
                     ws_promotion_ASE_SE.api.Protect(Password=password_wb)
+                    ws_competency_notes_ASE_SE.api.Protect(Password=password_wb)
                     ws_reports.api.Protect(Password=password_wb)
                     wb.api.Protect(Password=password_wb)
 
@@ -179,7 +201,7 @@ class process_PA_form:
                 app.quit()
                 
             except Exception as e:
-                print("****Error****: {}".format(str(e)))
+                print("****Error****: Data Process: {}".format(str(e)))
 
 
 class download_employee_function_data:

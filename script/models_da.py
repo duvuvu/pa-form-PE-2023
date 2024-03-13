@@ -90,53 +90,61 @@ class Employee_FunctionDA:
     
     def classify_data(self, df_data):
         index_values = utils_dataframe().get_unique_values(df_data, 'task_type')
-        column_headers = ['L0_T1', 'L0_T2', 'L1_T1', 'L1_T2', 'L2_T1', 'L2_T2', 'L3_T1', 'L3_T2', 'L4_T1','L4_T2', 'L5_T1', 'L5_T2']
+        column_headers = ['L1A_T1', 'L1A_T2', 'L1B_T1', 'L1B_T2', 'L2_T1', 'L2_T2', 'L3_T1', 'L3_T2', 'L4_T1','L4_T2', 'L5_T1', 'L5_T2', 'LB_T1', 'LB_T2']
         df_classfied = pd.DataFrame(data='-', index=index_values, columns=column_headers)
 
         # Proficiency
-        df_temp = utils_dataframe().filter_df_not_null(df_data[['id_task', 'task_type', 'task_proficiency']], 'task_proficiency')
+        df_temp = utils_dataframe().filter_df_not_null(df_data[['id_task', 'task_type', 'task_proficiency', 'task_CEI_number', 
+                                                                'task_improvement_idea', 'task_improvement_idea_compliment']], 'task_proficiency')
         for index, row in df_temp.iterrows():
             task_proficiency = row['task_proficiency']
-            if re.match(r'^L1\.', task_proficiency):
-                col = 'L1_T1'
-            elif re.match(r'^L2\.', task_proficiency):
-                col = 'L2_T1'
-            elif re.match(r'^L3\.', task_proficiency):
-                col = 'L3_T1'
-            elif re.match(r'^L4\.1\.', task_proficiency):
-                col = 'L4_T1'
-            elif re.match(r'^L4\.2\.', task_proficiency):
-                col = 'L4_T2'
-            elif re.match(r'^L5\.1\.', task_proficiency):
-                col = 'L5_T1'
-            elif re.match(r'^L5\.2\.', task_proficiency):
-                col = 'L5_T2'
-            if df_classfied.at[row['task_type'], col] == '-':
-                df_classfied.at[row['task_type'], col] = '● ' + row['id_task'] + '\n'
-            else:
-                df_classfied.at[row['task_type'], col] += '● ' + row['id_task'] + '\n'
             
-        # CEI
-        df_temp = utils_dataframe().filter_df_not_null(df_data[['id_task', 'task_type', 'task_CEI_number']], 'task_CEI_number')
-        col = 'L1_T2'
-        for index, row in df_temp.iterrows():
-            if df_classfied.at[row['task_type'], col] == '-':
-                df_classfied.at[row['task_type'], col] = '● ' + str(row['id_task']) + ': ' + str(row['task_CEI_number']) + '\n'
-            else:
-                df_classfied.at[row['task_type'], col] += '● ' + str(row['id_task']) + ': ' + str(row['task_CEI_number']) + '\n'
-
-        #Improvement Idea
-        df_temp = utils_dataframe().filter_df_not_null(df_data[['id_task', 'task_type', 'task_improvement_idea', 'task_improvement_idea_compliment']], 'task_improvement_idea')
-        col = 'L3_T2'
-        for index, row in df_temp.iterrows():
-            if df_classfied.at[row['task_type'], col] == '-':
-                if row['task_improvement_idea_compliment'] != None:
-                    df_classfied.at[row['task_type'], col] = '●● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
+            # Proficiency
+            CEI_status = not row.isnull()['task_CEI_number']
+            if CEI_status:
+                col = 'L2_T2'
+                if df_classfied.at[row['task_type'], col] == '-':
+                    df_classfied.at[row['task_type'], col] = '● ' + str(row['id_task']) + ': ' + str(row['task_CEI_number']) + '\n'
                 else:
-                    df_classfied.at[row['task_type'], col] = '● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
+                    df_classfied.at[row['task_type'], col] += '● ' + str(row['id_task']) + ': ' + str(row['task_CEI_number']) + '\n'
             else:
-                if row['task_improvement_idea_compliment'] != None:
-                    df_classfied.at[row['task_type'], col] += '●● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
+                if re.match(r'^L1\.1\.', task_proficiency):
+                    col = 'L1A_T1'
+                if re.match(r'^L1\.2\.', task_proficiency):
+                    col = 'L1A_T2'
+                if re.match(r'^L1\.3\.', task_proficiency):
+                    col = 'L1B_T1'
+                if re.match(r'^L1\.4\.', task_proficiency):
+                    col = 'L1B_T2'
+                if re.match(r'^L2\.1\.', task_proficiency):
+                    col = 'L2_T1'
+                elif re.match(r'^L3\.1\.', task_proficiency):
+                    col = 'L3_T1'
+                elif re.match(r'^L3\.2\.', task_proficiency):
+                    col = 'L3_T1'
+                elif re.match(r'^L4\.1\.', task_proficiency):
+                    col = 'L4_T1'
+                elif re.match(r'^L4\.2\.', task_proficiency):
+                    col = 'L4_T2'
+                elif re.match(r'^L5\.1\.', task_proficiency):
+                    col = 'L5_T1'
+                elif re.match(r'^L5\.2\.', task_proficiency):
+                    col = 'L5_T2'
+                if df_classfied.at[row['task_type'], col] == '-':
+                    df_classfied.at[row['task_type'], col] = '● ' + row['id_task'] + '\n'
+                else:
+                    df_classfied.at[row['task_type'], col] += '● ' + row['id_task'] + '\n'
+
+            # Improvement Idea
+            Improvement_Idea_status = not row.isnull()['task_improvement_idea']
+            Improvement_Idea_Compliment_status = not row.isnull()['task_improvement_idea_compliment']
+            if Improvement_Idea_status:
+                if Improvement_Idea_Compliment_status:
+                    col = 'LB_T2'
+                else:
+                    col = 'LB_T1'
+                if df_classfied.at[row['task_type'], col] == '-':
+                    df_classfied.at[row['task_type'], col] = '● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
                 else:
                     df_classfied.at[row['task_type'], col] += '● ' + str(row['id_task']) + ': ' + str(row['task_improvement_idea']) + '\n'
         
